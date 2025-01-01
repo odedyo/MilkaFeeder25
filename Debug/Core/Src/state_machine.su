@@ -1,0 +1,2 @@
+../Core/Src/state_machine.c:25:6:handle_event	16	static
+../Core/Src/state_machine.c:382:6:setTimeDate	8	static

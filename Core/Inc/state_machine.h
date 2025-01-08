@@ -9,6 +9,7 @@
 #define INC_STATE_MACHINE_H_
 #include <stdint.h>
 #include "i2c-lcd.h"
+#include "DS1302.h"
 
 typedef enum {
 	IDLE_STATE = 0,
@@ -41,7 +42,7 @@ typedef enum {
 } AppEvent;
 
 void handle_event(AppEvent event);
-
 void setTimeDate();
+void setTimeDateFromExtRTC();
 
 #endif /* INC_STATE_MACHINE_H_ */

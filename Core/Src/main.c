@@ -60,6 +60,7 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 volatile uint8_t buttonStableState[BUTTON_COUNT] = {0, 0, 0, 0}; // all released initially
 uint8_t buttonCounter[BUTTON_COUNT] = {0, 0, 0, 0};
+char* days[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -117,9 +118,16 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  dwt_init();
   lcd_init();
   lcd_clear();
   HAL_TIM_Base_Start_IT(&htim2);
+  DS1302_Init();
+  /* use this code for set the time of DS1302
+  uint8_t buf[8] = {0, 25, 1, 8, 14, 51, 0, 3};
+  DS1302_WriteTime(buf);
+  */
+  setTimeDateFromExtRTC();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -415,6 +423,9 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, MOTOR_Enable_Pin|LD2_Pin, GPIO_PIN_RESET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, DS1302_SDA_Pin|DS1302_SCLK_Pin|DS1302_RST_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
@@ -427,6 +438,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : DS1302_SDA_Pin DS1302_SCLK_Pin DS1302_RST_Pin */
+  GPIO_InitStruct.Pin = DS1302_SDA_Pin|DS1302_SCLK_Pin|DS1302_RST_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : SET_Button_Pin UP_Button_Pin DOWN_Button_Pin ENTER_Button_Pin */
   GPIO_InitStruct.Pin = SET_Button_Pin|UP_Button_Pin|DOWN_Button_Pin|ENTER_Button_Pin;

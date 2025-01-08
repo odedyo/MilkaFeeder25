@@ -401,3 +401,31 @@ void setTimeDate() {
 		Error_Handler();
 	}
 }
+
+/***********************************************/
+void setTimeDateFromExtRTC() {
+/***********************************************/
+	uint8_t dataFromRtc[8] = {};
+	static RTC_TimeTypeDef setTime = {0};
+	static RTC_DateTypeDef setDate = {0};
+
+	DS1302_ReadTime(&dataFromRtc);
+//	printf(" %02d/%02d/%02d - %02d:%02d:%02d  \n",dataFromRtc[3], dataFromRtc[2], dataFromRtc[1], dataFromRtc[4], dataFromRtc[5], dataFromRtc[6]);
+
+	setTime.Hours = dataFromRtc[4];
+	setTime.Minutes = dataFromRtc[5];
+	setTime.Seconds = dataFromRtc[6];
+	setDate.Year = dataFromRtc[1];
+	setDate.Month = dataFromRtc[2];
+	setDate.Date = dataFromRtc[3];
+
+	if (HAL_RTC_SetTime(&hrtc, &setTime, RTC_FORMAT_BIN) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	if (HAL_RTC_SetDate(&hrtc, &setDate, RTC_FORMAT_BIN) != HAL_OK)
+	{
+		Error_Handler();
+	}
+}

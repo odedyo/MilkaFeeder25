@@ -33,6 +33,7 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "utils.h"
 #include "state_machine.h"
+#include "DS1302.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -66,6 +67,12 @@ void setTimerInterval(uint32_t newPeriod);
 #define MOTOR_Enable_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
+#define DS1302_SDA_Pin GPIO_PIN_5
+#define DS1302_SDA_GPIO_Port GPIOC
+#define DS1302_SCLK_Pin GPIO_PIN_6
+#define DS1302_SCLK_GPIO_Port GPIOC
+#define DS1302_RST_Pin GPIO_PIN_8
+#define DS1302_RST_GPIO_Port GPIOC
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14

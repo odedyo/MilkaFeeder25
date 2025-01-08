@@ -1,2 +1,3 @@
 ../Core/Src/state_machine.c:25:6:handle_event	83
 ../Core/Src/state_machine.c:382:6:setTimeDate	3
+../Core/Src/state_machine.c:406:6:setTimeDateFromExtRTC	3
